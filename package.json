@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon index.js",
-    "build": "webpack --watch"
+    "start":"node index.js",
+    "build": "webpack --watch",
+    "deploy":"npm install && npm run start"
   },
   "engines": {
     "npm": ">=7.0.0 <9.0.0",
