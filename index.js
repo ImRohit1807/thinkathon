@@ -14,7 +14,6 @@ const models = [
   ];
   
 models.forEach((model) => {
-  console.log('model: ' + model)
     let routers = require("./src/api/" + model + "/routes/routes.js");
     app.use("/api/" + model, routers);
   });
