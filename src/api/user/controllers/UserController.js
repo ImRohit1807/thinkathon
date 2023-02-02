@@ -1,9 +1,13 @@
 const bcrypt = require("bcrypt");
-const UserService = require("../Services/UserService");
+const UserService = require("../services/UserService");
 const saltRounds = 10;
+const logger = require("../../../middleware/logger")
 
 // create new user 
 exports.createUser = async (req, res) => {
+  logger.info('create users -->')
+  logger.warn('Warn message')
+  logger.error('error message')
   UserService.create(req.body)
     .then((response) => {
       res.send(response);

@@ -1,6 +1,7 @@
-const AuthService = require("../Services/AuthService");
-const User = require("../../User/Entities/User");
-const authentication = require("../../../Resource/utils");
+const AuthService = require("../services/AuthService");
+const User = require("../../user/entities/User");
+const authentication = require("../../../middleware/utils");
+
 const bcrypt = require("bcrypt");
 require("dotenv").config;
 

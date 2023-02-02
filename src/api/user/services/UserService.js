@@ -1,5 +1,5 @@
 const bcrypt = require("bcrypt");
-const userRepo = require("../Repository/UserRepo");
+const userRepo = require("../repository/UserRepo");
 
 exports.create = async (data) => {
   return await userRepo.create(data)

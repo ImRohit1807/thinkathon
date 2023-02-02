@@ -1,5 +1,5 @@
-const User = require("../../User/Entities/User");
-const authentication = require("../../../Resource/utils");
+const User = require("../../user/entities/User");
+const authentication = require("../../../middleware/utils");
 require("dotenv").config;
 
 exports.resetPasswordMail = async (data) => {

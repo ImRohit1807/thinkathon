@@ -1,4 +1,4 @@
-const User = require("../Entities/User");
+const User = require("../entities/User");
 const bcrypt = require("bcrypt");
 
 exports.create = async (data) => {

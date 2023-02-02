@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+const logger = require('../middleware/logger')
+
 require("dotenv").config();
 
 mongoose.set('strictQuery', false)
@@ -13,11 +15,11 @@ mongoose.connect(process.env.DB_URL, {
 var conn = mongoose.connection;
 
 conn.on("error", () => {
-  console.error("Error occured in db connection");
+  logger.error("Error occured in db connection");
 });
 
 conn.on("open", () => {
-  console.log("DB Connection established succesfully");
+  logger.info("DB Connection established succesfully");
 });
 
 module.exports = mongoose;
