@@ -2,21 +2,16 @@ const express = require("express");
 const router = express.Router();
 var authentication = require("../../../Resource/utils");
 const UserController = require("../Controllers/UserController");
+
 router.post("/create", UserController.createUser);
 
 router.get(
-  "/:id/findAll",
+  "/findAll",
   authentication.validateToken,
   UserController.getUsers
 );
 
 router.get("/:id/find", authentication.validateToken, UserController.getUser);
-
-router.get(
-  "/find",
-  authentication.validateToken,
-  UserController.getUserWithToken
-);
 
 router.delete(
   "/:id/delete",

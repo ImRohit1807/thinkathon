@@ -1,34 +1,31 @@
-const User = require("../Entities/User");
 const bcrypt = require("bcrypt");
+const userRepo = require("../Repository/UserRepo");
+
 exports.create = async (data) => {
-  return await User.create(data);
+  return await userRepo.create(data)
 };
-exports.getAll = async (filter) => {
-  return await User.find(filter).sort({ updatedAt: -1 });
-};
-
-exports.get = async (id) => {
-  console.log('id------->',id)
-  return await User.findById(id).populate([{ path: "crewIds" }]);
+exports.getAll = async () => {
+  return await userRepo.find();
 };
 
-exports.getUser = async (data) => {
-  const { username } = data;
-  return await User.findOne({ username });
+exports.getUserById = async (id) => {
+  console.log('id------->', id)
+  return await userRepo.findById(id);
 };
 
 exports.update = async (User_id, data) => {
   if (!!data.password) {
     data.password = bcrypt.hashSync(data.password, 10);
   }
-  return await User.findByIdAndUpdate(User_id, data, { new: true });
+  return await userRepo.findByIdAndUpdate(User_id, data, { new: true });
 };
 
 exports.updatePassword = async (emailAddress, data) => {
-  return await User.findOneAndUpdate({ emailAddress: emailAddress }, data, {
+  return await userRepo.findOneAndUpdatePassword({ emailAddress: emailAddress }, data, {
     new: true,
   });
 };
-exports.delete = async (User_id) => {
-  return await User.findByIdAndRemove(User_id);
+
+exports.deleteUser = async (User_id) => {
+  return await userRepo.deleteUser(User_id);
 };
