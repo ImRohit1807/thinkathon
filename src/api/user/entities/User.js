@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const bcrypt = require("bcrypt");
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const saltRounds = 10;
 const UserSchema = new mongoose.Schema(
   {
@@ -8,10 +8,10 @@ const UserSchema = new mongoose.Schema(
       trim: true,
       index: {
         unique: true,
-        partialFilterExpression: { username: { $type: "string" } },
+        partialFilterExpression: { username: { $type: 'string' } }
       },
-      set: (v) => (v === "" ? null : v),
-      default: null,
+      set: (v) => (v === '' ? null : v),
+      default: null
     },
     emailAddress: {
       type: String,
@@ -19,45 +19,45 @@ const UserSchema = new mongoose.Schema(
 
       index: {
         unique: true,
-        partialFilterExpression: { emailAddress: { $type: "string" } },
+        partialFilterExpression: { emailAddress: { $type: 'string' } }
       },
-      set: (v) => (v === "" ? null : v),
-      default: null,
+      set: (v) => (v === '' ? null : v),
+      default: null
     },
     password: {
       type: String,
       trim: true,
-      select: false,
+      select: false
     },
     role: {
       type: String,
-      enum: ["Owner", "Manager", "Member", "ADMIN"],
-      default: "Owner",
-      required: true,
+      enum: ['Owner', 'Manager', 'Member', 'ADMIN'],
+      default: 'Owner',
+      required: true
     },
     name: {
       type: String,
       trim: true,
-      required: true,
+      required: true
     },
     superAdmin: {
       type: Boolean,
       required: true,
-      default: false,
+      default: false
     },
     crewIds: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Crew",
-      },
-    ],
+        ref: 'Crew'
+      }
+    ]
   },
   { timestamps: true }
 );
 
 // hash user password before saving into database
-UserSchema.pre("save", async function (next) {
-  if (!this.isModified("password") || this.password == null) {
+UserSchema.pre('save', async function (next) {
+  if (!this.isModified('password') || this.password == null) {
     return next();
   }
 
@@ -65,4 +65,4 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model('User', UserSchema);

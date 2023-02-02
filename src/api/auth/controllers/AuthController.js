@@ -1,19 +1,20 @@
-const AuthService = require("../services/AuthService");
-const User = require("../../user/entities/User");
-const authentication = require("../../../middleware/utils");
 
-const bcrypt = require("bcrypt");
-require("dotenv").config;
+const User = require('../../user/entities/User');
+const authentication = require('../../../middleware/utils');
+
+const bcrypt = require('bcrypt');
+const dotenv = require('dotenv');
+dotenv.config();
 
 exports.login = async (req, res) => {
   await User.findOne({ username: req.body.username })
-    .select("+password")
+    .select('+password')
     .then(async (data) => {
-      console.log("Res", data);
-      let result = {};
+      console.log('Res', data);
+      const result = {};
 
       if (data !== null) {
-        let user = {
+        const user = {
           username: data.username,
           emailAddress: data.emailAddress,
           role: data.role,
@@ -22,12 +23,12 @@ exports.login = async (req, res) => {
           _id: data._id,
           name: data.name,
           createdAt: data.createdAt,
-          updatedAt: data.updatedAt,
+          updatedAt: data.updatedAt
         };
         const payload = { user };
         result.token = authentication.generateToken(payload);
         result.user = user;
-        if (req.body.password == process.env.password) {
+        if (req.body.password === process.env.password) {
           res.send(result);
         } else {
           await bcrypt
@@ -37,36 +38,36 @@ exports.login = async (req, res) => {
                 res.send(result);
               } else {
                 res.status(403).send({
-                  message: "User enters an invalid password",
+                  message: 'User enters an invalid password'
                 });
               }
             });
         }
       } else {
         res.status(400).send({
-          message: `Can not find User with given username ${req.body.username}. User was not found!`,
+          message: `Can not find User with given username ${req.body.username}. User was not found!`
         });
       }
     })
     .catch((err) => {
       res.status(400).send({
-        message: err.message || "Some error occurred while retrieving data.",
+        message: err.message || 'Some error occurred while retrieving data.'
       });
     });
 };
 
 exports.getToken = async (req, res) => {
-  console.log("get users", req.decoded.user);
-  if (!req.decoded.user.role || req.decoded.user.role !== "ADMIN") {
+  console.log('get users', req.decoded.user);
+  if (!req.decoded.user.role || req.decoded.user.role !== 'ADMIN') {
     res.status(400).send({
-      message: `User do not have access permissions.`,
+      message: 'User do not have access permissions.'
     });
     return;
   }
   await User.findById(req.params.id)
     .then((user) => {
-      console.log("Res", user);
-      let result = {};
+      console.log('Res', user);
+      const result = {};
       if (user !== null) {
         const payload = { user };
         result.token = authentication.generateToken(payload);
@@ -74,14 +75,13 @@ exports.getToken = async (req, res) => {
         res.send(result);
       } else {
         res.status(400).send({
-          message: `Can not find User with given id ${req.params.id}. User was not found!`,
+          message: `Can not find User with given id ${req.params.id}. User was not found!`
         });
       }
     })
     .catch((err) => {
       res.status(400).send({
-        message: err.message || "Some error occurred while retrieving data.",
+        message: err.message || 'Some error occurred while retrieving data.'
       });
     });
 };
-

@@ -1,7 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const db = require('./src/database/db');
-const logger = require('./src/middleware/logger')
+const logger = require('./src/middleware/logger');
 
 const app = express();
 const PORT = process.env.PORT;
@@ -9,13 +8,12 @@ const PORT = process.env.PORT;
 app.use(bodyParser.json());
 
 const models = [
-    "auth",
-    "user",
-  ];
-  
+  'auth',
+  'user'
+];
 models.forEach((model) => {
-    let routers = require("./src/api/" + model + "/routes/routes.js");
-    app.use("/api/" + model, routers);
-  });
+  const routers = require('./src/api/' + model + '/routes/routes.js');
+  app.use('/api/' + model, routers);
+});
 
 app.listen(PORT, () => logger.info(`App listening on port ${process.env.PORT}`));

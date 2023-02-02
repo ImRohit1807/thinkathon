@@ -1,17 +1,16 @@
-const User = require("../entities/User");
-const bcrypt = require("bcrypt");
+const User = require('../entities/User');
+const bcrypt = require('bcrypt');
 
 exports.create = async (data) => {
-    return await User.create(data);
+  return await User.create(data);
 };
 
 exports.find = async () => {
-    return await User.find().sort({ updatedAt: -1 });
+  return await User.find().sort({ updatedAt: -1 });
 };
 
 exports.findById = async (id) => {
-    console.log('id------->', id)
-    return await User.findById(id).populate([{ path: "crewIds" }]);
+  return await User.findById(id).populate([{ path: 'crewIds' }]);
 };
 
 // exports.getUser = async (data) => {
@@ -19,19 +18,18 @@ exports.findById = async (id) => {
 //     return await User.findOne({ username });
 // };
 
-exports.findByIdAndUpdate = async (User_id, data) => {
-    if (!!data.password) {
-        data.password = bcrypt.hashSync(data.password, 10);
-    }
-    return await User.findByIdAndUpdate(User_id, data, { new: true });
+exports.findByIdAndUpdate = async (userId, data) => {
+  if (data.password) {
+    data.password = bcrypt.hashSync(data.password, 10);
+  }
+  return await User.findByIdAndUpdate(userId, data, { new: true });
 };
 
 exports.findOneAndUpdatePassword = async (emailAddress, data) => {
-    return await User.findOneAndUpdate({ emailAddress: emailAddress }, data, {
-        new: true,
-    });
+  return await User.findOneAndUpdate({ emailAddress }, data, {
+    new: true
+  });
 };
-exports.deleteUser = async (User_id) => {
-    return await User.findByIdAndRemove(User_id);
+exports.deleteUser = async (userId) => {
+  return await User.findByIdAndRemove(userId);
 };
-

@@ -1,16 +1,18 @@
-require("dotenv").config;
-const jwt = require("jsonwebtoken");
+const dotenv = require('dotenv');
+dotenv.config();
+
+const jwt = require('jsonwebtoken');
 
 module.exports = {
   // Generate Token
   generateToken: (payload) => {
     const options = {
-      expiresIn: "1d",
-      issuer: "thinkathon",
+      expiresIn: '1d',
+      issuer: 'thinkathon'
     };
-    // const secret = process.env.JWT_SECRET;
-    const secret = 'thinkathonsecret';
-    return (token = jwt.sign(payload, secret, options));
+    const secret = process.env.JWT_SECRET;
+    // const secret = 'thinkathonsecret';
+    return jwt.sign(payload, secret, options);
   },
 
   // Validate Token
@@ -18,10 +20,10 @@ module.exports = {
     const authorizationHeaader = req.headers.authorization;
     let result;
     if (authorizationHeaader) {
-      const token = req.headers.authorization.split(" ")[1]; // Bearer <token>
+      const token = req.headers.authorization.split('')[1]; // Bearer <token>
       const options = {
-        expiresIn: "1d",
-        issuer: "thinkathon",
+        expiresIn: '1d',
+        issuer: 'thinkathon'
       };
       try {
         // verify makes sure that the token hasn't expired and has been issued by us
@@ -34,9 +36,9 @@ module.exports = {
       }
     } else {
       result = {
-        error: `Authentication error. Token required.`,
+        error: 'Authentication error. Token required.'
       };
       res.status(401).send(result);
     }
-  },
+  }
 };
